@@ -1,5 +1,10 @@
 
 version: 0.2
+env:
+  variables:
+    AWS_REGION: us-east-1
+    ECR_REPO_URL: 891612571226.dkr.ecr.us-east-1.amazonaws.com/flask-eks-repo
+
 
 phases:
   pre_build:
