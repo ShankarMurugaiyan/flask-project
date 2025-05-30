@@ -20,6 +20,6 @@ phases:
   post_build:
     commands:
       - echo Deploying to EKS...
-      - aws eks update-kubeconfig --name flask-eks-project --region us-east-1
+      - aws eks update-kubeconfig --name flask-cluster --region us-east-1
       - sed "s|<IMAGE>|891612571226.dkr.ecr.us-east-1.amazonaws.com/flask-project-repo|g" k8s/deployment.yaml | kubectl apply -f -
       - kubectl apply -f k8s/service.yaml
