@@ -15,8 +15,8 @@ phases:
   build:
     commands:
       - echo Building Docker image...
-      - docker build -t $ECR_REPO_URL:latest .
-      - docker push $ECR_REPO_URL:latest
+      - docker build -t 891612571226.dkr.ecr.us-east-1.amazonaws.com/flask-project-repo .
+      - docker push 891612571226.dkr.ecr.us-east-1.amazonaws.com/flask-project-repo
   post_build:
     commands:
       - echo Deploying to EKS...
