@@ -19,7 +19,7 @@ phases:
       - docker push 891612571226.dkr.ecr.us-east-1.amazonaws.com/flask-project-repo
 
   post_build:
-  commands:
+   commands:
     - echo "Installing kubectl..."
     - KUBECTL_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
     - curl -LO "https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
