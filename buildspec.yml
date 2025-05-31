@@ -28,6 +28,7 @@ phases:
     - echo "Updating kubeconfig..."
     - aws eks update-kubeconfig --name flask-cluster --region us-east-1
     - echo "Deploying to EKS..."
-    - sed "s|<IMAGE>|891612571226.dkr.ecr.us-east-1.amazonaws.com/flask-project-repo:latest|g" k8s/deployment.yaml | kubectl apply -f -
+    - sed "s|<IMAGE>|$ECR_REPO_URL:latest|g" k8s/deployment.yaml | kubectl apply -f -
+
 
 
