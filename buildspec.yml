@@ -19,13 +19,15 @@ phases:
       - docker push 891612571226.dkr.ecr.us-east-1.amazonaws.com/flask-project-repo
 
   post_build:
-    commands:
-      - echo "Installing kubectl..."
-      - curl -LO "https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-      - chmod +x kubectl
-      - mv kubectl /usr/local/bin/
-      - echo "Updating kubeconfig..."
-      - aws eks update-kubeconfig --name flask-cluster --region us-east-1
-      - echo "Deploying to EKS..."
-      - sed "s|<IMAGE>|891612571226.dkr.ecr.us-east-1.amazonaws.com/flask-project-repo:latest|g" k8s/deployment.yaml | kubectl apply -f -
+  commands:
+    - echo "Installing kubectl..."
+    - KUBECTL_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+    - curl -LO "https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
+    - chmod +x kubectl
+    - mv kubectl /usr/local/bin/
+    - echo "Updating kubeconfig..."
+    - aws eks update-kubeconfig --name flask-cluster --region us-east-1
+    - echo "Deploying to EKS..."
+    - sed "s|<IMAGE>|891612571226.dkr.ecr.us-east-1.amazonaws.com/flask-project-repo:latest|g" k8s/deployment.yaml | kubectl apply -f -
+
 
