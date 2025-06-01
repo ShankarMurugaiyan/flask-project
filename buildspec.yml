@@ -39,7 +39,7 @@ phases:
     - echo "Updating kubeconfig..."
     - aws eks update-kubeconfig --name flask-cluster --region us-east-1
     - echo "Deploying to EKS..."
-    - IMAGE="docker.io/shankarmaxx/democicd" --validate=false
+    - IMAGE="docker.io/shankarmaxx/democicd" 
     - sed "s|<IMAGE>|$IMAGE|g" k8s/deployment.yaml | kubectl apply -f - 
 
     
