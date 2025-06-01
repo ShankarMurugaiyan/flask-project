@@ -40,7 +40,7 @@ phases:
     - aws eks update-kubeconfig --name flask-cluster --region us-east-1
     - echo "Deploying to EKS..."
     - IMAGE="${DOCKER_REGISTRY_URL}/${DOCKER_REGISTRY_USERNAME}/democicd"
-    - sed "s|<IMAGE>|$IMAGE|g" k8s/deployment.yaml | kubectl apply -f -
+    - sed "s|<IMAGE>|$IMAGE|g" k8s/deployment.yaml | kubectl apply -f - --validate=false
 
     
     
