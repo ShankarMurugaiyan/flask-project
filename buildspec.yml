@@ -4,19 +4,29 @@ env:
   variables:
     AWS_REGION: us-east-1
     ECR_REPO_URL: 891612571226.dkr.ecr.us-east-1.amazonaws.com/flask-project-repo
+  parameter-store:
+    DOCKER_REGISTRY_USERNAME: /myapp/docker-credentials/username
+    DOCKER_REGISTRY_PASSWORD: /myapp/docker-credentials/password
+    DOCKER_REGISTRY_URL: /myapp/docker-registry/url
 
 
 phases:
+  install:
+    runtime-versions:
+      python: 3.13
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 891612571226.dkr.ecr.us-east-1.amazonaws.com/flask-project-repo
-
+      - echo "Installing dependencies..."
+      - pip install -r requirements.txt
   build:
     commands:
-      - echo Building Docker image...
-      - docker build -t 891612571226.dkr.ecr.us-east-1.amazonaws.com/flask-project-repo .
-      - docker push 891612571226.dkr.ecr.us-east-1.amazonaws.com/flask-project-repo
+      - echo "Running tests..."
+      - cd docker
+      - echo "Building Docker image..."
+      - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
+      - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/democicd" .
+      - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/democicd"
+ 
 
   post_build:
    commands:
@@ -28,7 +38,7 @@ phases:
     - echo "Updating kubeconfig..."
     - aws eks update-kubeconfig --name flask-cluster --region us-east-1
     - echo "Deploying to EKS..."
-    - sed "s|<IMAGE>|$ECR_REPO_URL:latest|g" k8s/deployment.yaml | kubectl apply -f -
+    - sed "s|<IMAGE>|$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/democicd|g" k8s/deployment.yaml | kubectl apply -f -
 
 
 
