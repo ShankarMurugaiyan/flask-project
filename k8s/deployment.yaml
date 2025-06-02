@@ -14,7 +14,7 @@ spec:
         app: flask-app
     spec:
       containers:
-      - name: flask-app
-        image: <IMAGE>
+      - name: flask-container
+        image: docker.io/shankarmaxx/democicd:latest
         ports:
         - containerPort: 5000
