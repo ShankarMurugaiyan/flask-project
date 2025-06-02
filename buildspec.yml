@@ -43,6 +43,7 @@ phases:
     - kubectl apply -f k8s/deployment.yaml --validate=false
     - kubectl apply -f k8s/service.yaml
 
+
     
     
  
