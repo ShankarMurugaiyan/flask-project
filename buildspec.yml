@@ -41,6 +41,7 @@ phases:
     - aws eks update-kubeconfig --name flask-cluster --region us-east-1
     - echo "Deploying to EKS..."
     - kubectl apply -f k8s/deployment.yaml --validate=false
+    
 
     
  
