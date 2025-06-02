@@ -4,6 +4,7 @@ env:
   variables:
     AWS_REGION: us-east-1
     ECR_REPO_URL: 891612571226.dkr.ecr.us-east-1.amazonaws.com/flask-project-repo
+    EKS_CLUSTER_NAME : flask-cluster
   
   parameter-store:
     DOCKER_REGISTRY_USERNAME: /myapp/docker-credentials/username
